@@ -93,5 +93,21 @@ namespace KataTest_Test
             checkout.Scan("A"); // Not enough to trigger special price
             Assert.Equal(100, checkout.GetTotalPrice()); // 50 * 2
         }
+
+        [Fact]
+        public void Test_OverSpecialPrice()
+        {
+            var pricingRules = new Dictionary<string, Rule>
+            {
+                { "A", new Rule(50, 3, 130) }
+            };
+
+            ICheckout checkout = new Checkout(pricingRules);
+            checkout.Scan("A");
+            checkout.Scan("A");
+            checkout.Scan("A"); // Triggers special price
+            checkout.Scan("A"); // Should add 50 to the total price
+            Assert.Equal(180, checkout.GetTotalPrice()); // 130 + 50
+        }
     }
 }
