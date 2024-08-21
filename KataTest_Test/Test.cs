@@ -69,15 +69,29 @@ namespace KataTest_Test
         public void Test_EmptyCart()
         {
             var pricingRules = new Dictionary<string, Rule>
-        {
-            { "A", new Rule(50, 3, 130) },
-            { "B", new Rule(30, 2, 45) },
-            { "C", new Rule(20) },
-            { "D", new Rule(15) }
-        };
+            {
+                { "A", new Rule(50, 3, 130) },
+                { "B", new Rule(30, 2, 45) },
+                { "C", new Rule(20) },
+                { "D", new Rule(15) }
+            };
 
             ICheckout checkout = new Checkout(pricingRules);
             Assert.Equal(0, checkout.GetTotalPrice());
+        }
+
+        [Fact]
+        public void Test_IncompleteSpecialPrice()
+        {
+            var pricingRules = new Dictionary<string, Rule>
+            {
+                { "A", new Rule(50, 3, 130) }
+            };
+
+            ICheckout checkout = new Checkout(pricingRules);
+            checkout.Scan("A");
+            checkout.Scan("A"); // Not enough to trigger special price
+            Assert.Equal(100, checkout.GetTotalPrice()); // 50 * 2
         }
     }
 }
