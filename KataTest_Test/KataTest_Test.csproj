@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KataTest_Domain\KataTest_Domain.csproj" />
+  </ItemGroup>
+
 </Project>
