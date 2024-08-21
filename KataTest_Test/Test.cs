@@ -64,5 +64,20 @@ namespace KataTest_Test
 
             Assert.Equal(115, checkout.GetTotalPrice()); // 50 (A) + 30 (B) + 20 (C) + 15 (D)
         }
+
+        [Fact]
+        public void Test_EmptyCart()
+        {
+            var pricingRules = new Dictionary<string, Rule>
+        {
+            { "A", new Rule(50, 3, 130) },
+            { "B", new Rule(30, 2, 45) },
+            { "C", new Rule(20) },
+            { "D", new Rule(15) }
+        };
+
+            ICheckout checkout = new Checkout(pricingRules);
+            Assert.Equal(0, checkout.GetTotalPrice());
+        }
     }
 }
